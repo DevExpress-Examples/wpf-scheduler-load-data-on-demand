@@ -1,0 +1,1 @@
+This example illustrates how to load data in the scheduler only for the selected date interval.
