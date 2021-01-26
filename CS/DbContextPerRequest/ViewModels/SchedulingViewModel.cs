@@ -21,19 +21,19 @@ namespace DXSample.ViewModels {
                 args.Result = dbContext.AppointmentEntities.Where(args.GetFetchExpression<AppointmentEntity>()).ToArray();
             }
         }
-		public void ProcessChanges(AppointmentCRUDEventArgs args) {
-			using(var dbContext = new SchedulingContext()) {
-				dbContext.AppointmentEntities.AddRange(args.AddToSource.Select(x => (AppointmentEntity)x.SourceObject));
-				var updatedAppts = args.UpdateInSource.Select(x => (AppointmentEntity)x.SourceObject);
-				var updatedApptIds = updatedAppts.Select(x => x.Id).ToArray();
-				var apptsToUpdate = dbContext.AppointmentEntities.Where(x => updatedApptIds.Contains(x.Id));
-				foreach(var appt in updatedAppts)
-					AppointmentEntityHelper.CopyProperties(appt, apptsToUpdate.First(x => x.Id == appt.Id));
-				var deletedApptIds = args.DeleteFromSource.Select(x => ((AppointmentEntity)x.SourceObject).Id).ToArray();
-				var apptsToDelete = dbContext.AppointmentEntities.Where(x => deletedApptIds.Contains(x.Id)).ToArray();
-				dbContext.AppointmentEntities.RemoveRange(apptsToDelete);
-				dbContext.SaveChanges();
-			}
+	public void ProcessChanges(AppointmentCRUDEventArgs args) {
+		using(var dbContext = new SchedulingContext()) {
+			dbContext.AppointmentEntities.AddRange(args.AddToSource.Select(x => (AppointmentEntity)x.SourceObject));
+			var updatedAppts = args.UpdateInSource.Select(x => (AppointmentEntity)x.SourceObject);
+			var updatedApptIds = updatedAppts.Select(x => x.Id).ToArray();
+			var apptsToUpdate = dbContext.AppointmentEntities.Where(x => updatedApptIds.Contains(x.Id));
+			foreach(var appt in updatedAppts)
+				AppointmentEntityHelper.CopyProperties(appt, apptsToUpdate.First(x => x.Id == appt.Id));
+			var deletedApptIds = args.DeleteFromSource.Select(x => ((AppointmentEntity)x.SourceObject).Id).ToArray();
+			var apptsToDelete = dbContext.AppointmentEntities.Where(x => deletedApptIds.Contains(x.Id)).ToArray();
+			dbContext.AppointmentEntities.RemoveRange(apptsToDelete);
+			dbContext.SaveChanges();
 		}
+	}
     }
 }
