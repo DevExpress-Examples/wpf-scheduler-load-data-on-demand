@@ -25,12 +25,15 @@ Namespace DXSample.ViewModels
 		Public Sub ProcessChanges(ByVal args As AppointmentCRUDEventArgs)
 			Using dbContext = New SchedulingContext()
 				dbContext.AppointmentEntities.AddRange(args.AddToSource.Select(Function(x) CType(x.SourceObject, AppointmentEntity)))
-				For Each appt In args.UpdateInSource.Select(Function(x) CType(x.SourceObject, AppointmentEntity))
-					AppointmentEntityHelper.CopyProperties(appt, dbContext.AppointmentEntities.Find(appt.Id))
+				Dim updatedAppts = args.UpdateInSource.Select(Function(x) CType(x.SourceObject, AppointmentEntity))
+				Dim updatedApptIds = updatedAppts.Select(Function(x) x.Id).ToArray()
+				Dim apptsToUpdate = dbContext.AppointmentEntities.Where(Function(x) updatedApptIds.Contains(x.Id))
+				For Each appt In updatedAppts
+					AppointmentEntityHelper.CopyProperties(appt, apptsToUpdate.First(Function(x) x.Id = appt.Id))
 				Next appt
-				For Each appt In args.DeleteFromSource.Select(Function(x) CType(x.SourceObject, AppointmentEntity))
-					dbContext.AppointmentEntities.Remove(dbContext.AppointmentEntities.Find(appt.Id))
-				Next appt
+				Dim deletedApptIds = args.DeleteFromSource.Select(Function(x) CType(x.SourceObject, AppointmentEntity).Id).ToArray()
+				Dim apptsToDelete = dbContext.AppointmentEntities.Where(Function(x) deletedApptIds.Contains(x.Id)).ToArray()
+				dbContext.AppointmentEntities.RemoveRange(apptsToDelete)
 				dbContext.SaveChanges()
 			End Using
 		End Sub
