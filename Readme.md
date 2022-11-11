@@ -6,11 +6,11 @@
 
 # How to load Scheduler Control data on demand
 
-This example illustrates how to load data in the scheduler only for the selected date interval. The example consists of two solutions. Each solution has its own SchedulingViewModel:
+This example loads data in the Scheduler only for the selected date interval. The example consists of three parts.
 
-* _CommonDbContext_. This example uses a single `DbContext` for the application.
-* _DbContextPerRequest_. This example follows the One `DbContext` per request approach.
-* _Shared_. The project contains the data and the view, which are the same for both solutions. The events are mapped to the view model’s handlers.
+* _CommonDbContext_. This solution uses a single `DbContext` for the application and has own SchedulingViewModel.
+* _DbContextPerRequest_. This solution follows the One `DbContext` per request approach and has own SchedulingViewModel.
+* _Shared_. The shared project contains the data and the view, which are the same for both solutions. The events are mapped to the view model’s handlers.
 
 ## Files to Review
 
