@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Scheduling;
@@ -18,7 +19,8 @@ namespace DXSample.ViewModels {
         }
         public void FetchAppointments(FetchDataEventArgs args) {
             using(var dbContext = new SchedulingContext()) {
-                args.Result = dbContext.AppointmentEntities.Where(args.GetFetchExpression<AppointmentEntity>()).ToArray();
+                args.AsyncResult = dbContext.AppointmentEntities.
+                    Where(args.GetFetchExpression<AppointmentEntity>()).ToArrayAsync<object>();
             }
         }
         public void ProcessChanges(AppointmentCRUDEventArgs args) {
