@@ -8,9 +8,11 @@
 
 This Scheduler control example only loads appointments that fall into the specified date interval. The solution consists of three parts.
 
-* _Shared_. This shared project contains the data and the view used by other projects. The view maps events to view model’s handlers.
-* _CommonDbContext_. This project implements a `SchedulingViewModel` that uses a single `DbContext` for the application.
-* _DbContextPerRequest_. This project implements a `SchedulingViewModel` that creates a new `DbContext` per each request.
+* _Shared_. This shared project contains the data and the view used by other projects. The view maps events to view model’s handlers.  The events are mapped to the view model's handlers.
+* _CommonDbContext_. This project implements a `SchedulingViewModel` that uses a single `DbContext` for the application. The DbContext is initialized once the view model is initialized.
+* _DbContextPerRequest_. This project implements a `SchedulingViewModel` that creates a new `DbContext` per each request. The DbContext is initialized each time the [DataSource.FetchAppointments](https://docs.devexpress.com/WPF/DevExpress.Xpf.Scheduling.DataSource.FetchAppointments) event is fired.
+
+Additionally, the view integrates the scheduler with the [Date Navigator](https://docs.devexpress.com/WPF/401550/controls-and-libraries/scheduler/visual-elements/date-navigator) and [Resource Navigator](https://docs.devexpress.com/WPF/401575/controls-and-libraries/scheduler/visual-elements/resource-navigator). The view displays the result of the fetch events in the **Event Log** text box.
 
 ## Files to Review
 
