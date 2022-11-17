@@ -4,7 +4,7 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
 
-# How to load Scheduler Control data on demand
+# WPF - How to load Scheduler Control data on demand
 
 This example loads appointments that fall into the specified date interval. The solution consists of three parts.
 
