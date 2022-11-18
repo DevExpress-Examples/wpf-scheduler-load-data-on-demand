@@ -16,13 +16,16 @@ namespace DXSample.Views {
             scheduler.AppointmentEdited += (d, e) => e.Appointments.ForEach(x => LogChange(x, "edited"));
             scheduler.AppointmentRemoved += (d, e) => e.Appointments.ForEach(x => LogChange(x, "removed"));
             scheduler.AppointmentRestored += (d, e) => e.Appointments.ForEach(x => LogChange(x, "restored"));
-            scheduler.DataSource.FetchAppointments += (d, e) => LogFetch(e.Interval, e.Result.Length);
+            scheduler.DataSource.FetchAppointments += (d, e) => LogFetch(e);
             refreshData.Click += OnRefreshDataClick;
         }
-        void LogFetch(DateTimeRange interval, int count) {
-            var intervalStr = interval.ToString("({0:d})-({1:d})", null);
+        async void LogFetch(FetchDataEventArgs e) {
+            if(e.AsyncResult != null)
+                await e.AsyncResult;
+            int apptCount = e.Result != null ? e.Result.Length : e.AsyncResult.Result.Length;
+            var intervalStr = e.Interval.ToString("({0:d})-({1:d})", null);
             var format = "{0}: {1} appointments fetched";
-            logTextEdit.Text += string.Format(format, intervalStr, count) + Environment.NewLine;
+            logTextEdit.Text += string.Format(format, intervalStr, apptCount) + Environment.NewLine;
         }
         void LogChange(AppointmentItem appt, string action) {
             logTextEdit.Text += string.Format("Appointment '{0}' {1}; changes saved to database", appt.Subject, action) + Environment.NewLine;

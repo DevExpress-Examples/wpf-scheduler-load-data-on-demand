@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Generic
+Imports System.Data.Entity
 Imports System.Linq
 Imports DevExpress.Mvvm.Native
 Imports DevExpress.Xpf.Scheduling
@@ -18,7 +19,8 @@ Namespace DXSample.ViewModels
 			End If
 		End Sub
 		Public Sub FetchAppointments(ByVal args As FetchDataEventArgs)
-			args.Result = dbContext.AppointmentEntities.Where(args.GetFetchExpression(Of AppointmentEntity)()).ToArray()
+			Dim res = dbContext.AppointmentEntities.Where(args.GetFetchExpression(Of AppointmentEntity)())
+			args.AsyncResult = QueryableExtensions.ToArrayAsync(Of Object)(res)
 		End Sub
 		Public Sub ProcessChanges(ByVal args As AppointmentCRUDEventArgs)
 			dbContext.AppointmentEntities.AddRange(args.AddToSource.Select(Function(x) CType(x.SourceObject, AppointmentEntity)))
