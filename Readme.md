@@ -6,7 +6,7 @@
 
 # WPF Scheduler - How to load data on demand
 
-This example loads appointments that fall into the specified date interval. The solution consists of three parts.
+This example loads appointments that fall into the specified date interval. The solution consists of three parts:
 
 * _Shared_. This shared project contains the data and the view used by other projects. The view maps events to view model’s handlers.  The events are mapped to the view model's handlers.
 * _CommonDbContext_. This project implements a `SchedulingViewModel` that uses a single `DbContext` for the application. The DbContext is initialized once the view model is initialized.
